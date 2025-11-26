@@ -1,0 +1,80 @@
+
+@server = http://localhost:3000/user
+
+
+### USER 1
+POST {{server}}/create
+Content-Type: application/json
+
+{
+  "email":"laslark1991@gmail.com",
+  "username": "laslark1991",
+  "password": "Randompassowrd"
+}
+
+
+### USER 2
+POST {{server}}/create
+Content-Type: application/json
+
+{
+  "email":"nhl1991@naver.com",
+  "username": "nhl1991",
+  "password": "Randompassowrd"
+}
+
+### USER 3
+POST {{server}}/create
+Content-Type: application/json
+
+{
+  "email":"testuser6@test.com",
+  "username": "testuser6",
+  "password": "strongpassword"
+}
+
+### INSERT WRONG USER
+POST {{server}}/create
+Content-Type: application/json
+
+{
+  "email":"rathrak91",
+  "username": "rathrak91",
+  "password": "Randompassowrd"
+}
+
+
+### UPDATE USER 
+PATCH {{server}}/rathrak91%40gmail.com/username
+Content-Type: application/json
+
+{
+  "username": "Movealong"
+}
+
+### DELETE USER 2
+DELETE {{server}}/delete
+Content-Type: application/json
+
+{
+  "email":"testuser3@test.com"
+}
+
+
+### DELETE WRONG USER
+DELETE {{server}}/delete
+Content-Type: application/json
+
+{
+  "email":"laslark1991@naver.com"
+}
+
+
+### UPDATE PASSWORD 
+PATCH {{server}}/testuser6%40test.com/password
+Content-Type: application/json
+
+{
+  "password": "strongpassword",
+  "newPassword": "Atarashii"
+}

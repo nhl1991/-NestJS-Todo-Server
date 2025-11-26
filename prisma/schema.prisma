@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Todo {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String
+  published Boolean @default(false)
+  public    Boolean @default(false)
+  authorId  Int
+  createdDt DateTime @default(now())
+  updatedDt DateTime @updatedAt
+  User      User    @relation(fields: [authorId], references: [id])
+
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  uuid     String  @default(uuid(7))
+  email    String  @unique
+  username String  @unique
+  password String
+  posts     Todo[]
+}

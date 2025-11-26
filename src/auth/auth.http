@@ -1,0 +1,19 @@
+
+@server = http://localhost:3000/auth
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkVhc3lQZWFzeSIsInN1YiI6eyJpZCI6MTYsInV1aWQiOiIwMTlhYmFiYS1kM2E1LTc0NTktYjNjOC02MTQyNTViNTI2NmQiLCJlbWFpbCI6Im5ld0VtYWlsQG5hdmVyLmNvbSIsInVzZXJuYW1lIjoiRWFzeVBlYXN5IiwicGFzc3dvcmQiOiIkMmIkMTAkWlRjTkRDU2VUU2hKaDZGM1VtYjkzT3FIWmhaQlBLV2lsdzRQUS5TeUlVLnBvT2JDc1lQTkMifSwiaWF0IjoxNzY0MTQ4NTk3LCJleHAiOjE3NjQxNDg3Nzd9.MnCZs0Rnr6rtWjJC8UIaT-rlriYdqGyriTnHgXisqjc
+### Register
+POST {{server}}/login-test
+Content-Type: application/json
+
+{
+    "email": "newEmail@naver.com",
+    "password": "mypassword",
+    "username": "EasyPeasy"
+}
+
+### Session Test
+Get {{server}}/test-guard
+
+
+### JWT Test
+Get {{server}}/profile

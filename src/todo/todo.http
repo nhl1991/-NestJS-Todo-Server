@@ -1,0 +1,76 @@
+
+@server=http://localhost:3000/todo
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkVhc3lQZWFzeSIsInN1YiI6eyJpZCI6MTYsInV1aWQiOiIwMTlhYmFiYS1kM2E1LTc0NTktYjNjOC02MTQyNTViNTI2NmQiLCJlbWFpbCI6Im5ld0VtYWlsQG5hdmVyLmNvbSIsInVzZXJuYW1lIjoiRWFzeVBlYXN5IiwicGFzc3dvcmQiOiIkMmIkMTAkWlRjTkRDU2VUU2hKaDZGM1VtYjkzT3FIWmhaQlBLV2lsdzRQUS5TeUlVLnBvT2JDc1lQTkMifSwiaWF0IjoxNzY0MTQ5NTM3LCJleHAiOjE3NjQxNDk3MTd9.c0NuuMY9-dQjnhvIiQyAkgEYHVyI_9_k2rG6EoKTFbk
+POST {{server}}/create
+Content-Type: application/json
+
+{
+    "title": "TEST 1",
+    "content": "TEST content",
+    "published": true,
+    "public": true
+}
+
+
+### Create TODO 2
+POST {{server}}/create
+Content-Type: application/json
+
+{
+    "title": "TEST 4",
+    "content": "TEST content 4",
+    "published": true,
+    "public": true
+}
+
+### Create TODO 3
+POST {{server}}/create
+Content-Type: application/json
+
+{
+    "title": "TEST 3",
+    "content": "TEST content 3",
+    "published": true,
+    "public": true
+}
+
+
+
+### Update TODO 2
+PATCH  {{server}}/3
+Content-Type: application/json
+
+{
+    "title": "TEST updated 6:28",
+    "content": "TEST content 3 updated",
+    "published": true,
+    "public": true
+}
+
+
+
+## DELETE 
+### Create Dummy
+POST {{server}}/create
+Content-Type: application/json
+
+{
+    "title": "This todo will be deleted.",
+    "content": "Delete this todo.",
+    "published": true,
+    "public": true
+}
+
+
+### DELETE DUMMY 
+DELETE {{server}}/4
+
+
+
+## GET POST
+### GET A POST
+GET {{server}}/9
+
+
+### GET ALL POST
+GET {{server}}
