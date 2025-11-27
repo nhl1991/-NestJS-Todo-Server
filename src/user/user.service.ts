@@ -99,7 +99,7 @@ export class UserService {
             password: hashedPassword,
           },
         });
-        console.log('패스워드 변경 완료.')
+
         return true;
       }
 
@@ -109,13 +109,12 @@ export class UserService {
     }
   }
 
-  async getUser(email: string){
+  async getUser(email: string) {
     const user = await this.prisma.user.findUnique({
       where: {
-        email: email
-      }
-    })
-    const password ='password'
+        email: email,
+      },
+    });
 
     return user;
   }

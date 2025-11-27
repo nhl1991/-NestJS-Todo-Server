@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma, Todo } from 'src/generated/prisma/client';
 
@@ -12,8 +12,6 @@ export class TodoService {
     } catch (err) {
       throw err;
     }
-
-    
   }
 
   async findAll() {
@@ -25,29 +23,36 @@ export class TodoService {
   }
 
   async findOne(id: number) {
-    try{
-      return await this.prisma.todo.findUnique({
-        where: {
-          id: id
-        }
-      })
-    }catch(err){
-      throw err;
-    }
-
-    return `This action returns a #${id} todo`;
-  }
-
-  async update(id: number, updateTodoDto: Prisma.TodoUpdateInput) {
     try {
-      await this.prisma.todo.update({
+      return await this.prisma.todo.findUnique({
         where: {
           id: id,
         },
-        data: {
-          ...updateTodoDto,
-        },
       });
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async update(
+    id: number,
+    updateTodoDto: Prisma.TodoUpdateInput,
+    userId: number,
+  ) {
+    try {
+      const todo = await this.findOne(id);
+      if (!todo) throw new NotFoundException('게시물 없음');
+
+      if (todo.authorId === userId) {
+        await this.prisma.todo.update({
+          where: {
+            id: id,
+          },
+          data: {
+            ...updateTodoDto,
+          },
+        });
+      }
     } catch (err) {
       throw err;
     }

@@ -2,8 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UserModule } from 'src/user/user.module';
-import { LocalStrategy } from './local.strategy';
-import { SessionSerializer } from './session.serializer';
+
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
@@ -13,7 +12,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   imports: [
     UserModule,
     ConfigModule, // isGlobal:true라 없어도 돌아가긴 하는데 선언해두면 깔끔
-    PassportModule.register({ /* session: false 추천 */ }),
+    PassportModule.register({ session: false }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (config: ConfigService) => ({
@@ -24,6 +23,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, SessionSerializer, JwtStrategy],
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}

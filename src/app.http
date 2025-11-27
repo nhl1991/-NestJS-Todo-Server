@@ -1,0 +1,42 @@
+@server = http://localhost:3001
+
+### Login
+POST {{server}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "newEmail@naver.com",
+    "password": "mypassword",
+    "username": "EasyPeasy"
+}
+
+### Get ME
+GET {{server}}/auth/me
+
+### Add a todo
+POST {{server}}/todo/create
+Content-Type: application/json
+
+{
+    "title": "Create client app",
+    "content": "넥스트 JS로 내일 ",
+    "published": true,
+    "public": true
+}
+
+
+
+### Update TODO 2
+PATCH  {{server}}/todo/8
+Content-Type: application/json
+
+{
+    "title": "머리터지겠따.",
+    "content": "TEST content 3 updated",
+    "published": true,
+    "public": true
+}
+
+
+### Logout
+POST {{server}}/auth/logout

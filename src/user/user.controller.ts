@@ -4,11 +4,9 @@ import {
   CreateUserDto,
   DeleteUserDto,
   ResponseUserDto,
-  UpdatePasswordDto,
   UpdateUserDto,
 } from './user.dto';
-import { Prisma, User } from 'src/generated/prisma/client';
-import { PrismaClientKnownRequestError } from 'src/generated/prisma/internal/prismaNamespace';
+import { User } from 'src/generated/prisma/client';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('user')
