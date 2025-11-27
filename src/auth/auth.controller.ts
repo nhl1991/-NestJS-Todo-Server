@@ -13,7 +13,7 @@ export class AuthController {
   async signIn(@Body() signInDto: Record<string, any>, @Res({ passthrough: true /** passthrough true여야 수동 응답. */}) res:Response): Promise<any> {
     console.log(signInDto);
     const { access_token, email, username, userId } = await this.authService.signIn(signInDto.email, signInDto.password)
-
+    console.log('/login ', userId)
     res.cookie('access_token', access_token, {
       httpOnly: true,
       sameSite: 'lax',

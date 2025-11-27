@@ -68,7 +68,14 @@ export class TodoService {
     } catch (err) {
       throw err;
     }
+  }
 
-    return `This action removes a #${id} todo`;
+
+  async getUserTodos(id: number){
+    return this.prisma.todo.findMany({
+      where: {
+        authorId: id
+      }
+    })
   }
 }

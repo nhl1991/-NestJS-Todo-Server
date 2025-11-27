@@ -24,12 +24,12 @@ export class TodoController {
   @UseGuards(JwtAuthGuard)
   @Post('/create')
   create(@Body() createTodoDto: CreateTodoDto, @Req() req: Request) {
-    const user = req.cookies['user'];
+    const {userId, ...data} = createTodoDto;
 
     return this.todoService.create({
-      ...createTodoDto,
+      ...data,
       User: {
-        connect: { id: user.userId },
+        connect: { id: userId },
       },
     });
   }
@@ -43,7 +43,14 @@ export class TodoController {
   // 게시글 검색
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log(id);
     return this.todoService.findOne(+id);
+  }
+
+  @Get('my-todo/:id')
+  getUserTodos(@Param('id') id: string){
+    console.log(id);
+    return this.todoService.getUserTodos(+id)
   }
 
   // 게시글 수정
