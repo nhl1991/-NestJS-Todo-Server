@@ -10,7 +10,7 @@ async function bootstrap() {
   }));
   app.use(cookieParser());
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: 'https://next-js-todo-client.vercel.app/',
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
