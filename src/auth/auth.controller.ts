@@ -29,8 +29,8 @@ export class AuthController {
 
     res.cookie('access_token', access_token, {
       httpOnly: true,
-      sameSite: 'lax',
-      secure: false, // https 환경이면 true
+      sameSite: 'none',
+      secure: true, // https 환경이면 true
       path: '/',
       maxAge: 1000 * 60 * 30, // 일단 30분.
     });
