@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -24,15 +28,16 @@ export class AuthService {
     if (user && bcrypt.compareSync(pass, user.password)) {
       const payload = { sub: user, email: user.email };
       const access_token = await this.jwtService.signAsync(payload);
+      console.log('로그인 성공..')
       return {
         access_token,
         email: user.email,
         username: user.username,
         userId: user.id,
       };
-    }
-
-    throw new UnauthorizedException();
+    } else if(!user){
+      throw new UnauthorizedException('Not registered.');
+    }else throw new UnauthorizedException('Invalid credentials');
   }
 
   async validateUser(email: string, pass: string): Promise<any> {

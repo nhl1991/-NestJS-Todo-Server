@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma, Todo } from 'src/generated/prisma/client';
 
@@ -10,13 +14,29 @@ export class TodoService {
     try {
       return await this.prisma.todo.create({ data: todo });
     } catch (err) {
+      console.log(err);
       throw err;
     }
   }
 
   async findAll() {
     try {
-      return await this.prisma.todo.findMany();
+      const data = await this.prisma.todo.findMany({
+        where: {
+          public: true,
+        },
+        orderBy: {
+          createdDt: 'desc',
+        },
+        include: {
+          User: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      });
+      return data;
     } catch (err) {
       throw err;
     }
@@ -51,6 +71,7 @@ export class TodoService {
           data: {
             ...updateTodoDto,
           },
+          
         });
       }
     } catch (err) {
@@ -58,8 +79,11 @@ export class TodoService {
     }
   }
 
-  async delete(id: number) {
+  async delete(id: number, userId: number) {
     try {
+      const todo = await this.prisma.todo.findUnique({ where: { id } });
+      if (!todo) throw new NotFoundException();
+      if (todo.authorId !== userId) throw new ForbiddenException();
       return await this.prisma.todo.delete({
         where: {
           id: id,
@@ -70,12 +94,21 @@ export class TodoService {
     }
   }
 
-
-  async getUserTodos(id: number){
+  async getUserTodos(id: number) {
     return this.prisma.todo.findMany({
       where: {
-        authorId: id
-      }
-    })
+        authorId: id,
+      },
+      orderBy:{
+          createdDt: 'desc',
+      },
+      include: {
+        User: {
+          select: {
+            username: true,
+          },
+        },
+      },
+    });
   }
 }

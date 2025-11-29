@@ -23,10 +23,10 @@ export class TodoController {
   // 게시글 생성
   @UseGuards(JwtAuthGuard)
   @Post('/create')
-  create(@Body() createTodoDto: CreateTodoDto, @Req() req: Request) {
-    const {userId, ...data} = createTodoDto;
+  async create(@Body() createTodoDto: CreateTodoDto, @Req() req: Request) {
+    const { userId, ...data } = createTodoDto;
 
-    return this.todoService.create({
+    return await this.todoService.create({
       ...data,
       User: {
         connect: { id: userId },
@@ -36,21 +36,19 @@ export class TodoController {
 
   // 모든 게시글 (public true)
   @Get()
-  findAll() {
-    return this.todoService.findAll();
+  async findAll() {
+    return await this.todoService.findAll();
   }
 
   // 게시글 검색
   @Get(':id')
   findOne(@Param('id') id: string) {
-    console.log(id);
     return this.todoService.findOne(+id);
   }
 
   @Get('my-todo/:id')
-  getUserTodos(@Param('id') id: string){
-    console.log(id);
-    return this.todoService.getUserTodos(+id)
+  getUserTodos(@Param('id') id: string) {
+    return this.todoService.getUserTodos(+id);
   }
 
   // 게시글 수정
@@ -59,17 +57,22 @@ export class TodoController {
   update(
     @Param('id') id: string,
     @Body() updateTodoDto: UpdateTodoDto,
-    @Req() req: Request,
+    @Req() req,
   ) {
-    const user = req.cookies['user'];
+    if (req.user) {
+      const { userId } = req.user;
 
-    return this.todoService.update(+id, updateTodoDto, user.userId);
+      return this.todoService.update(+id, updateTodoDto, +userId);
+    }
   }
 
   // 게시글 삭제
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.todoService.delete(+id);
+  delete(@Param('id') id: string, @Req() req) {
+    if (req.user) {
+      const { userId } = req.user;
+      return this.todoService.delete(+id, +userId);
+    }
   }
 }
